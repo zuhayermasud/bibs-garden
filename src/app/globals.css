@@ -132,6 +132,37 @@
   }
 }
 
+/*
+ * Type scale. Display sizes (h1-h3) use the heading font in caps and scale with the viewport on
+ * small screens; lede, body and caption stay closer to fixed sizes.
+ *   h1       page title, and the big navigation links
+ *   h2       section headings
+ *   h3       sub-headings, card and list titles
+ *   lede     the large statement paragraph (about me)
+ *   body     running text
+ *   caption  small labels and asides
+ */
+@layer components {
+  .type-h1 {
+    @apply font-custom text-[11vw] leading-[0.9] uppercase lg:text-8xl;
+  }
+  .type-h2 {
+    @apply font-custom text-[7vw] leading-[0.9] uppercase lg:text-[3.5vw];
+  }
+  .type-h3 {
+    @apply font-custom text-2xl leading-[0.9] uppercase lg:text-3xl;
+  }
+  .type-lede {
+    @apply font-mono text-[4vw] leading-[1.33] font-light lg:text-[2.86vw];
+  }
+  .type-body {
+    @apply font-mono text-sm leading-relaxed lg:text-base;
+  }
+  .type-caption {
+    @apply font-roman text-sm tracking-widest uppercase;
+  }
+}
+
 /* Note bodies rendered from the vault's Markdown (src/app/garden/[slug]/page.tsx) */
 @layer components {
   .garden-prose {

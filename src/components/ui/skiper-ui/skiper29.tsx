@@ -5,103 +5,55 @@ import Link from 'next/link'
 import React, { useRef } from 'react'
 
 import { ArrowWeired } from '@/components/arrow-weired'
-import { AsciiSimulation } from '@/components/ui/skiper-ui/skiper14'
+import { RainCanvas } from '@/components/rain-canvas'
 import { TextRoll } from '@/components/ui/skiper-ui/skiper58'
-import { INSTAGRAM_URL, isExternal } from '@/lib/site'
+import { AUTHOR, INSTAGRAM_URL, isExternal } from '@/lib/site'
 
-const sitemap: { label: string; href: string }[] = [
+const shortcuts: { label: string; href: string }[] = [
   { label: 'notes', href: '/garden' },
   { label: 'references', href: '/refs' },
+  { label: 'about me', href: '#who-am-i' },
   { label: 'instagram', href: INSTAGRAM_URL },
 ]
 
 const Skiper29 = () => {
   const gallery = useRef(null)
-  const gallery2 = useRef(null)
 
   const { scrollYProgress } = useScroll({
     target: gallery,
     offset: ['start end', 'end start'],
   })
 
-  const { scrollYProgress: scrollYProgress2 } = useScroll({
-    target: gallery2,
-    offset: ['start end', 'end start'],
-  })
-
   const y = useTransform(scrollYProgress, [0.6, 1], ['0%', '30%'])
-
-  const scaleDiv = useTransform(scrollYProgress2, [0, 1], [1, 0.7])
-  const scaleImg = useTransform(scrollYProgress2, [0, 1], [1, 1.3])
 
   return (
     <div className="flex w-screen flex-col items-center overflow-hidden bg-[#F9F7EF] text-black">
+      {/* Same treatment as the section titles on the notes pages */}
+      <h1 className="font-custom mt-10 h-[0.71em] w-full whitespace-nowrap border-y border-black/15 text-center text-[15vw] uppercase leading-[0.9] lg:mt-14">
+        bibs garden
+      </h1>
+
       <div
         ref={gallery}
-        className="relative flex h-[70vh] w-screen items-end overflow-hidden bg-black"
+        className="relative mt-10 flex h-[60vh] w-screen items-end overflow-hidden bg-[#F9F7EF]"
       >
         <motion.div className="size-full" style={{ y }}>
-          <AsciiSimulation modelPath="/models/car.glb" className="size-full" />
+          <RainCanvas className="size-full" color="#000" />
         </motion.div>
       </div>
-      <div className="flex w-full flex-col items-center justify-center">
-        <p className="font-roman md:text-md my-10 px-6 text-center text-sm uppercase tracking-widest">
-          its a doggy dog world out there
-        </p>
-        <h1 className="font-custom h-8.5 lg:h-17 w-full border-b border-t text-center text-5xl leading-[0.9] lg:text-8xl">
-          MY GARDEN
-        </h1>
-        <div className="my-4 flex size-8 items-center justify-center rounded-full bg-black p-2 text-[#F9F7EF]">
-          <ArrowWeired />
-        </div>
-      </div>
 
-      <div className="mt-35 flex w-full flex-col items-center gap-32 lg:w-[80%] lg:flex-row lg:gap-16">
-        <motion.div
-          ref={gallery2}
-          style={{ scale: scaleDiv, clipPath: 'url(#portrait)' }}
-          className="relative flex aspect-[9/16] w-[70%] shrink-0 items-center justify-center overflow-hidden lg:w-1/3"
-        >
-          <SvgMask />
-          <motion.img
-            src="/images/me.webp"
-            alt="Zuhayer in a fuzzy star-print hat, looking to the side"
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ scale: scaleImg }}
-          />
-        </motion.div>
-
-        <div className="flex w-full flex-col items-center justify-center lg:items-start">
-          {/* Sized to the viewport so the name stays on one line; the em height crops the font's leading like the other headings */}
-          <h2 className="font-custom h-[0.71em] w-full whitespace-nowrap border-b border-t text-center text-[12vw] uppercase leading-[0.9] lg:text-left lg:text-[6vw]">
-            hi, i’m zuhayer
-          </h2>
-          <p className="font-roman md:text-md mt-10 text-sm uppercase tracking-widest">
-            designer from bangladesh 🇧🇩
-          </p>
-          <p className="mt-6 max-w-md px-6 text-center text-base leading-relaxed text-black/70 lg:px-0 lg:text-left">
-            This is my digital garden, a slowly growing collection of notes, images, and references
-            I pick up along the way. Nothing here is finished. Ideas get planted, revisited, and
-            pruned over time.
-          </p>
-        </div>
-      </div>
-
-      <div className="my-42 flex w-full flex-col items-center justify-center uppercase">
-        <p className="font-roman md:text-md my-10 text-sm tracking-widest">sitemap</p>
-        <ul className="flex w-full flex-col items-center justify-center border-t">
-          {sitemap.map(({ label, href }) => {
+      <section className="mt-14 grid w-full gap-10 px-[3.2vw] xl:grid-cols-2 xl:items-start">
+        <h2 className="type-h2 max-w-[14ch] text-balance">already know what you want?</h2>
+        <ul className="flex flex-col items-end">
+          {shortcuts.map(({ label, href }) => {
             const text = (
-              <TextRoll center className="font-custom text-5xl leading-[0.9] lg:text-8xl">
+              <TextRoll center className="type-h1">
                 {label}
               </TextRoll>
             )
 
             return (
-              <li
-                key={label}
-                className="relative flex w-full cursor-pointer flex-col items-center border-b"
-              >
+              <li key={label} className="relative flex cursor-pointer flex-col items-end">
                 {isExternal(href) ? (
                   <a href={href} target="_blank" rel="noreferrer">
                     {text}
@@ -113,27 +65,39 @@ const Skiper29 = () => {
             )
           })}
         </ul>
+      </section>
+
+      <div className="mt-35 flex w-full flex-col items-center justify-center">
+        <p className="type-caption my-10 px-6 text-center">its a doggy dog world out there</p>
+        <h2 className="type-h1 h-[0.71em] w-full border-b border-t text-center">{AUTHOR}</h2>
+        <div className="my-4 flex size-8 items-center justify-center rounded-full bg-black p-2 text-[#F9F7EF]">
+          <ArrowWeired />
+        </div>
+      </div>
+
+      {/* Draft copy */}
+      <p className="type-body mt-2 max-w-[60ch] px-6 text-center">
+        A digital garden is a website that grows in public: notes, references, and half-finished
+        ideas, tended over time instead of published once. Nothing here is in order, so wander.
+      </p>
+
+      <div id="who-am-i" className="mt-35 mb-42 flex w-full scroll-mt-10 flex-col items-center">
+        {/* Sized to the viewport so it stays on one line; the em height crops the font's leading like the other headings */}
+        <h2 className="type-h2 h-[0.71em] w-full whitespace-nowrap border-b border-t text-center">
+          who am i?
+        </h2>
+        {/* Proportions measured from the reference (1605px wide): 46px light mono (0.6em advance), 1.33 leading, 4ch first-line indent, 80% measure starting 3.2% in */}
+        <p className="type-lede mt-[10vw] ml-[3.2vw] w-[93.6vw] self-start indent-[4ch] lg:w-[80vw]">
+          I’m Zuhayer, a designer based in Bangladesh (no, not India). I work across branding,
+          product, design engineering, wherever a problem actually needs solving. Also stupidly good
+          at Mario Kart.
+        </p>
       </div>
     </div>
   )
 }
 
 export { Skiper29 }
-
-const SvgMask = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1836 1053" width="100%">
-      {/* The 16:9 video mask turned 90° so it frames a portrait */}
-      <clipPath id="portrait" clipPathUnits="objectBoundingBox">
-        <path
-          fill="currentColor"
-          d="M457.525 1.148c-20.789-3.198-193.979 1.16-283.854 2.496 11.104-.178 1.297-2.868-81.146-2.496-103.5.468-86 102.499-86 109.999s-7 524.5-6.5 547.5 10 59 6.5 99c-2.8 32-1.167 234.667 0 332.003.5 75 62.5 66.5 67 68.5s38.5 0 81.5 0 436 6 526 10.5 438.995-.5 505.495 0 330.01-12.5 417.51-12.5 230.99 2 270.99 0 40.5-16 51-31.5 12.5-61 12.5-105.5c0-44.503 7.01-274.504 7.01-348.004s-3.51-159.998-7.01-230.998 0-256.002 0-318.002 7.01-92.998-22.5-110.999c-18.79-11.471-81.99-9.999-133.49-9.999H853.525c-29 0-370 4-396 0Z"
-          transform="translate(1 0) rotate(90) scale(0.0005139987561, 0.0008543065594)"
-        ></path>
-      </clipPath>
-    </svg>
-  )
-}
 
 /**
  * Skiper 29 Parallax_001 — React + framer motion + lenis
